@@ -1,11 +1,7 @@
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
-
 export default function Home() {
   return (
-    <main>
-      <h1>next!</h1>
+    <main className="h-[2000px]">
+      <h1>NEXTJS HELLO WORLD</h1>
     </main>
   );
 }

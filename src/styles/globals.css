@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ul {
+  list-style-type: disc;
+}
+ol {
+  list-style-type: decimal;
+}

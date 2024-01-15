@@ -53,7 +53,10 @@ export default async function handler(
 
   if (data && data.length === 1) {
     const { tags, ...reset } = data[0];
-    res.status(200).json({ ...reset, tags: JSON.parse(tags) as string[] });
+    res.status(200).json({
+      ...reset,
+      tags: JSON.parse(tags) as string[],
+    });
   } else res.status(500).end();
 }
 

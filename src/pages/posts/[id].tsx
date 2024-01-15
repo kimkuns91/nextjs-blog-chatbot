@@ -18,7 +18,7 @@ export default function Post({
   preview_image_url,
 }: PostProps) {
   return (
-    <div className="container mx-auto flex flex-col gap-8 px-4 pb-40 pt-20">
+    <div className="container flex flex-col gap-8 pb-40 pt-20">
       <h1 className="text-4xl font-bold">{title}</h1>
       <div className="flex flex-row items-center gap-2">
         <Link

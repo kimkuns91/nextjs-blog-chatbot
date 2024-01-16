@@ -6,6 +6,7 @@ import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Button from './Button';
+import { PostCardProps } from './PostCard';
 
 const SearchPage = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,10 +35,9 @@ const SearchPage = () => {
   });
 
   const handleReset = useCallback(() => {
-    if (window.confirm('대화를 초기화 하시겠습니까?')) {
-      setMessageParams([]);
-      localStorage.removeItem('messages');
-    }
+    if (window.confirm('대화를 초기화 하시겠습니까?') === false) return;
+    setMessageParams([]);
+    localStorage.removeItem('messages');
   }, []);
 
   const handleSubmit = useCallback(
@@ -60,6 +60,33 @@ const SearchPage = () => {
   );
 
   const messagePropsList = useMemo(() => {
+    let posts: Omit<PostCardProps, 'className'>[] = [];
+
+    const result = messageParams.reduce<MessageProps[]>((acc, cur) => {
+      if (cur.role === 'function' && cur.content) {
+        posts.push(JSON.parse(cur.content) as Omit<PostCardProps, 'className'>);
+      }
+
+      if (cur.role === 'user') {
+        posts = [];
+        return [...acc, cur as MessageProps];
+      }
+
+      if (cur.role === 'assistant') {
+        const newResult = [
+          ...acc,
+          {
+            ...cur,
+            posts: [...posts],
+          } as MessageProps,
+        ];
+        posts = [];
+        return newResult;
+      }
+
+      return acc;
+    }, []);
+
     return messageParams.filter(
       (param): param is MessageProps =>
         param.role === 'assistant' || param.role === 'user',

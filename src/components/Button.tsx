@@ -10,6 +10,7 @@ const Button: FC<ButtonProps> = ({ className, children, ...rest }) => {
         'w-full rounded-md bg-gray-800 py-2 text-white transition-all hover:bg-gray-900',
         className,
       )}
+      {...rest}
     >
       {children}
     </button>
